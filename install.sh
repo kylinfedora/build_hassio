@@ -43,6 +43,14 @@ apt-get upgrade -y
 apt-get install python3-pip python3-venv -y
 
 su -s /bin/bash homeassistant
+mkdir -p /home/"$usern"/.pip
+cat >> /home/"$usern"/.pip/pip.conf << EOF
+[global]
+index-url = http://mirrors.aliyun.com/pypi/simple/
+[install]
+trusted-host = mirrors.aliyun.com
+EOF
+
 cd /home/"$usern"/homeassistant
 #Setup virtual environment
 python3 -m venv homeassistant
@@ -110,7 +118,7 @@ sudo bash -c 'systemctl start homeassistant@'"$usern"'.service'
 
 #sed -i '/^http\:/a \ \ base_url\: '"$domain"':8123' /home/"$usern"/.homeassistant/configuration.yaml
 #sed -i '/^http\:/a \ \ ssl_certificate\: '"$cert"'' /home/"$usern"/.homeassistant/configuration.yaml
-sed -i '/^http\:/a \ \ ssl_key\: '"$key"'' /home/"$usern"/.homeassistant/configuration.yaml
+#sed -i '/^http\:/a \ \ ssl_key\: '"$key"'' /home/"$usern"/.homeassistant/configuration.yaml
 
 #Restart home assistant
 #sudo bash -c 'sudo systemctl restart homeassistant@'"$usern"'.service'
